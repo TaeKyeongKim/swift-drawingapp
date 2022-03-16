@@ -27,8 +27,8 @@ class ViewController: UIViewController {
     let panelWidth : Double = 200
     
     
-    //[Model : View]
-    private var rectangleList : [Model : RectangleView] = [:]
+    //[Model : Configurable]
+    private var rectangleList : [Model : ViewConfigurable] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,8 +86,8 @@ class ViewController: UIViewController {
     
     @objc func didTabColorRondomizeButton(sender: UIButton) {
         plane?.randomizeColorOnSelectedModel()
-        
     }
+    
     
     @objc func didTabAlphaStepper(sender: UIStepper) {
         plane?.changeAlphaOnSelectedModel(to: Alpha(rawValue: Int(sender.value)))
@@ -115,19 +115,17 @@ class ViewController: UIViewController {
         )
         NotificationCenter.default.addObserver(self, selector: #selector(updatePanelView), name: .DidChangeAlpha, object: plane
         )
-        
-        
-
     }
     
     
     @objc func createModelView(notification: Notification) {
         guard let newModel = notification.userInfo?[UserInfo.model] else {return}
         guard let model = newModel as? Model else {return}
-        if let modelView = viewFactory?.make(model: model) as? RectangleView {
-            rectangleList.updateValue(modelView, forKey: model)
+        if let modelView = viewFactory?.make(model: model) {
+            rectangleList.updateValue(modelView  as! ViewConfigurable,  forKey: model)
             view.addSubview(modelView)
         }
+        
     }
     
     @objc func updateSelectedModel(notification: Notification) {
@@ -172,7 +170,7 @@ class ViewController: UIViewController {
     //MARK: 사각형 뷰 선택에 따른 테두리 및 패널 뷰처리 함수.
     private func updateHighlight(from model: Model) {
         guard let modelView = rectangleList[model] else {return}
-        modelView.configure(isSelected: model.selectedStatus())
+        modelView.select(isSelected: model.selectedStatus())
     }
   
     

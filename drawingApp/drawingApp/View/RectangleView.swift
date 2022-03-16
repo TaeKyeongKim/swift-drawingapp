@@ -7,7 +7,15 @@
 
 import UIKit
 
-class RectangleView: UIView {
+//RectangleView 와 PhotoView 는 ViewConfigurable 프로토콜을 채택.
+
+protocol ViewConfigurable {
+    func updateColor(with model: Model)
+    func updateAlpha(newAlpha : Double)
+    func select(isSelected : Bool)
+}
+
+class RectangleView: UIView, ViewConfigurable {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +35,7 @@ class RectangleView: UIView {
     }
     
     
-    func configure(isSelected : Bool){
+    func select(isSelected : Bool){
         if isSelected {
             self.layer.borderWidth = 4
             self.layer.borderColor = UIColor.blue.cgColor
