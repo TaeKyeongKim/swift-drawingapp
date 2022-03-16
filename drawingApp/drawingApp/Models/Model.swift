@@ -31,18 +31,22 @@ protocol Drawable {
     var alpha : Alpha {get}
 }
 
-protocol Modellable : Drawable {
+protocol Selectable {
     var isSelected : Bool {get}
-    func updateColor (_ color: Color)
-    func updateAlpha (_ alpha: Alpha)
     func toggleSelected()
     func configureSelected(to: Bool)
     func selectedStatus() -> Bool
 }
 
+protocol AlphaModifiable {
+    func updateAlpha (_ alpha: Alpha)
+}
+protocol ColorModifiable {
+    func updateColor (_ color: Color)
+}
 
 //뷰에 나타날 사각형의 데이터.
-class Model : Modellable  {
+class Model : Drawable, Selectable {
         
     //사각형에 대한 모든 속성을 가지고 있다
     let id : String
@@ -69,13 +73,7 @@ class Model : Modellable  {
         self.alpha = alpha
     }
     
-    func updateColor (_ color: Color) {
-        self.color = color
-    }
-    
-    func updateAlpha (_ alpha: Alpha) {
-        self.alpha = alpha
-    }
+ 
     
     func toggleSelected(){
         self.isSelected = !isSelected

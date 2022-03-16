@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     private var plane : ModelManagable?
     //Views
     private var rectangleGenerationButton : UIButton!
+    
     private var panelView = PanelView()
     
     //ViewFactory

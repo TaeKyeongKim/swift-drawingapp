@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+
+class PhotoModel : Model, AlphaModifiable{
+    
+    func updateAlpha (_ alpha: Alpha) {
+        self.alpha = alpha
+    }
+}

@@ -7,7 +7,6 @@
 
 import Foundation
 import OSLog
-import UIKit
 
 protocol ModelManagable {
     var models : [Model] {get}
@@ -16,7 +15,7 @@ protocol ModelManagable {
     func selectModel(tapCoordinate: Point)
     func randomizeColorOnSelectedModel()
     func changeAlphaOnSelectedModel(to alpha: Alpha?)
-    subscript(index: UInt64) -> Modellable? {get}
+    subscript(index: UInt64) -> Model? {get}
     init(modelFactory : ModelProducible)
 }
 
@@ -38,7 +37,7 @@ class Plane : ModelManagable {
         self.models.count
         
     }
-    subscript(index: UInt64) -> Modellable?{
+    subscript(index: UInt64) -> Model?{
         get {
             guard numberOfModel > index else {return nil}
             return models[Int(index)]
@@ -74,7 +73,7 @@ class Plane : ModelManagable {
     }
     
     func randomizeColorOnSelectedModel(){
-        guard let targetModel = selectedModel else{return}
+        guard let targetModel = selectedModel as? ColorModifiable else{return}
         targetModel.updateColor(RandomGenerator.makeColor())
         NotificationCenter.default.post(name: .DidChangeColor, object: self, userInfo: [UserInfo.model : targetModel])
     }
