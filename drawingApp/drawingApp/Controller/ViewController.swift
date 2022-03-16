@@ -13,7 +13,7 @@ class ViewController: UIViewController {
     //Model
     private var plane : ModelManagable?
     //Views
-    private let rectangleGenerationButton = UIButton()
+    private var rectangleGenerationButton : UIButton!
     private var panelView = PanelView()
     
     //ViewFactory
@@ -34,9 +34,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.plane = Plane(modelFactory: ModelFactory(referecePoint: Point(x: 0, y:20), boarderSize: Size(width: screenWdith - panelWidth, height: screenHeight - buttonHeight)))
         
+        setupLayout()
         setupSubViews()
         setupHandlers()
-        setupLayout()
         addObservers()
         setupFactory(viewFactory: ViewFactory())
     }
@@ -57,10 +57,14 @@ class ViewController: UIViewController {
     }
 
     func setupLayout(){
+        var buttonConfiguration = UIButton.Configuration.gray()
+        buttonConfiguration.title = "사각형"
+        buttonConfiguration.image = UIImage(systemName: "rectangle")
+        buttonConfiguration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 40)
+        buttonConfiguration.imagePlacement = .top
+        rectangleGenerationButton = UIButton(configuration: buttonConfiguration, primaryAction: nil) // 1
         rectangleGenerationButton.frame = CGRect(x: (screenWdith - panelWidth)/2 - (buttonWidth/2), y: screenHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
-        rectangleGenerationButton.layer.cornerRadius = 10
-        rectangleGenerationButton.backgroundColor = .lightGray
-        rectangleGenerationButton.setTitle("사각형", for: .normal)
+
         panelView.frame = CGRect(x: screenWdith - panelWidth, y: view.safeAreaInsets.top, width: panelWidth, height: screenHeight)
     }
    
