@@ -28,7 +28,7 @@ class ViewController: UIViewController {
     
     
     //[Model : Configurable]
-    private var rectangleList : [Model : ViewConfigurable] = [:]
+    private var modelViewList : [Model : ViewConfigurable] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +122,7 @@ class ViewController: UIViewController {
         guard let newModel = notification.userInfo?[UserInfo.model] else {return}
         guard let model = newModel as? Model else {return}
         if let modelView = viewFactory?.make(model: model) {
-            rectangleList.updateValue(modelView  as! ViewConfigurable,  forKey: model)
+            modelViewList[model] = modelView as? ViewConfigurable
             view.addSubview(modelView)
         }
         
@@ -147,7 +147,7 @@ class ViewController: UIViewController {
     
     @objc func updateModelView(notification: Notification) {
         guard let modifiedModel = notification.userInfo?[UserInfo.model] as? Model else {return}
-        guard let modelView = rectangleList[modifiedModel] else {return}
+        guard let modelView = modelViewList[modifiedModel] else {return}
         let colorChanged = notification.name == .DidChangeColor
         if colorChanged {
           modelView.updateColor(with: modifiedModel)
@@ -169,7 +169,7 @@ class ViewController: UIViewController {
 
     //MARK: 사각형 뷰 선택에 따른 테두리 및 패널 뷰처리 함수.
     private func updateHighlight(from model: Model) {
-        guard let modelView = rectangleList[model] else {return}
+        guard let modelView = modelViewList[model] else {return}
         modelView.select(isSelected: model.selectedStatus())
     }
   

@@ -26,6 +26,7 @@
 		B74322D127D2534200445645 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322D027D2534200445645 /* Utils.swift */; };
 		B74322E027DB39FF00445645 /* RandomGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322DF27DB39FF00445645 /* RandomGenerator.swift */; };
 		B743230227DF774900445645 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743230127DF774900445645 /* Constants.swift */; };
+		B743232627E2248900445645 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743232527E2248900445645 /* PhotoModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		B74322D027D2534200445645 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B74322DF27DB39FF00445645 /* RandomGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomGenerator.swift; sourceTree = "<group>"; };
 		B743230127DF774900445645 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B743232527E2248900445645 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				B74322A227CC6F4000445645 /* Model.swift */,
+				B743232527E2248900445645 /* PhotoModel.swift */,
 				B74322A427CC81ED00445645 /* Factory.swift */,
 				B74322C227CF5A0700445645 /* Plane.swift */,
 				B74322B827CF0C0500445645 /* Color.swift */,
@@ -272,6 +275,7 @@
 				B743229127CC5DF300445645 /* ViewController.swift in Sources */,
 				B74322C327CF5A0700445645 /* Plane.swift in Sources */,
 				B74322A527CC81ED00445645 /* Factory.swift in Sources */,
+				B743232627E2248900445645 /* PhotoModel.swift in Sources */,
 				B74322C627D0CB8400445645 /* RectangleView.swift in Sources */,
 				B743228D27CC5DF300445645 /* AppDelegate.swift in Sources */,
 				B74322D127D2534200445645 /* Utils.swift in Sources */,
