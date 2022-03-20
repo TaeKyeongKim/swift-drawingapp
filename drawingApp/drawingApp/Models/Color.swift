@@ -12,7 +12,7 @@ struct Color : CustomStringConvertible {
     let red : Double
     let green : Double
     let blue : Double
-    let range = 0.0..<255.0
+    let range = 0.0...255.0
     var description: String {
         return "R:\(red.trim), G:\(green.trim), B:\(blue.trim)"
     }

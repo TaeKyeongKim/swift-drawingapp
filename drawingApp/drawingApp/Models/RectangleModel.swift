@@ -7,6 +7,7 @@
 
 import Foundation
 class RectangleModel : Model , ColorModifiable , AlphaModifiable{
+    
     func updateColor (_ color: Color) {
         self.color = color
     }

@@ -29,6 +29,7 @@ protocol Drawable {
     var point : Point {get}
     var color : Color {get}
     var alpha : Alpha {get}
+
 }
 
 protocol Selectable {
@@ -45,10 +46,12 @@ protocol ColorModifiable {
     func updateColor (_ color: Color)
 }
 
+
+
+
 //뷰에 나타날 사각형의 데이터.
 class Model : Drawable, Selectable {
-        
-    //사각형에 대한 모든 속성을 가지고 있다
+   
     let id : String
     let size : Size
     let point : Point
@@ -62,18 +65,17 @@ class Model : Drawable, Selectable {
             os_log(.debug, "모델 알파 변경감지: \(oldValue) -> \(self.alpha)")
         }
     }
-    
+
     private (set) var isSelected = false
     
-    init (id: String, size:Size , point: Point, color: Color, alpha : Alpha) {
-        self.id = id
-        self.size = size
-        self.point = point
-        self.color = color
-        self.alpha = alpha
+    required init(propertyFactory : PropertyFactory) {
+        self.id = propertyFactory.makeId()
+        self.size = propertyFactory.makeSize()
+        self.point = propertyFactory.makeOriginPoint()
+        self.color = propertyFactory.makeColor()
+        self.alpha = propertyFactory.makeAlpha()
     }
-    
- 
+  
     
     func toggleSelected(){
         self.isSelected = !isSelected

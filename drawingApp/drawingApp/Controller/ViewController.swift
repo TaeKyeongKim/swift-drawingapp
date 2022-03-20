@@ -7,19 +7,24 @@
 
 import UIKit
 import OSLog
+import PhotosUI
 
 class ViewController: UIViewController {
     
     //Model
     private var plane : ModelManagable?
+    
     //Views
     private var rectangleGenerationButton : UIButton!
-    
+    private var photoGenerationButton : UIButton!
     private var panelView = PanelView()
     
-    //ViewFactory
+    //Factories
     private var viewFactory : ViewProducible?
-  
+    private var modelFactory : ModelProducible?
+    //PHPicker
+    private var phpicker : PHPickerViewController!
+    
     //View Constants
     let screenWdith = UIScreen.main.bounds.width
     let screenHeight = UIScreen.main.bounds.height
@@ -29,56 +34,88 @@ class ViewController: UIViewController {
     
     
     //[Model : Configurable]
-    private var modelViewList : [Model : ViewConfigurable] = [:]
+    private var modelViewList : [Model : View] = [:] {
+        didSet {
+            print("from modelList \(self) ")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.plane = Plane(modelFactory: ModelFactory(referecePoint: Point(x: 0, y:20), boarderSize: Size(width: screenWdith - panelWidth, height: screenHeight - buttonHeight)))
+        self.plane = Plane()
         
         setupLayout()
         setupSubViews()
         setupHandlers()
         addObservers()
-        setupFactory(viewFactory: ViewFactory())
+        setupPHPicker()
+        setupFactory(viewFactory: ViewFactory(), modelFactory: ModelFactory())
     }
     
     
     func setupSubViews() {
         view.addSubview(rectangleGenerationButton)
+        view.addSubview(photoGenerationButton)
         view.addSubview(panelView)
     }
-
+    
     func setupHandlers() {
-        rectangleGenerationButton.addTarget(self, action: #selector(createRectangleModel), for:.touchUpInside)
+        rectangleGenerationButton.addTarget(self, action: #selector(didTapRectangleButton), for:.touchUpInside)
+        photoGenerationButton.addTarget(self, action: #selector(didTapPhotoButton), for:.touchUpInside)
         let tapGuestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapTriggered))
         tapGuestureRecognizer.numberOfTapsRequired = 1
         self.view.addGestureRecognizer(tapGuestureRecognizer)
         panelView.colorRondomizeButton.addTarget(target, action: #selector(didTabColorRondomizeButton), for: .touchUpInside)
         panelView.alphaStepper.addTarget(target, action: #selector(didTabAlphaStepper), for: .valueChanged)
     }
-
+    
     func setupLayout(){
-        var buttonConfiguration = UIButton.Configuration.gray()
-        buttonConfiguration.title = "사각형"
-        buttonConfiguration.image = UIImage(systemName: "rectangle")
-        buttonConfiguration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 40)
-        buttonConfiguration.imagePlacement = .top
-        rectangleGenerationButton = UIButton(configuration: buttonConfiguration, primaryAction: nil) // 1
-        rectangleGenerationButton.frame = CGRect(x: (screenWdith - panelWidth)/2 - (buttonWidth/2), y: screenHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
-
+        var rectangleButtonConfiguration = UIButton.Configuration.gray()
+        rectangleButtonConfiguration.title = "사각형"
+        rectangleButtonConfiguration.image = UIImage(systemName: "rectangle")
+        rectangleButtonConfiguration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 40)
+        rectangleButtonConfiguration.imagePlacement = .top
+        rectangleGenerationButton = UIButton(configuration: rectangleButtonConfiguration, primaryAction: nil)
+        rectangleGenerationButton.layer.borderWidth = 1
+        rectangleGenerationButton.frame = CGRect(x: (screenWdith - panelWidth)/2 - (buttonWidth/2) - 30, y: screenHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
         panelView.frame = CGRect(x: screenWdith - panelWidth, y: view.safeAreaInsets.top, width: panelWidth, height: screenHeight)
+        
+        var photoButtonConfiguration = UIButton.Configuration.gray()
+        photoButtonConfiguration.title = "사진"
+        photoButtonConfiguration.image = UIImage(systemName: "photo")
+        photoButtonConfiguration.preferredSymbolConfigurationForImage = UIImage.SymbolConfiguration(pointSize: 40)
+        photoButtonConfiguration.imagePlacement = .top
+        photoGenerationButton = UIButton(configuration: photoButtonConfiguration, primaryAction: nil)
+        photoGenerationButton.layer.borderWidth = 1
+        photoGenerationButton.frame = CGRect(x: (screenWdith - panelWidth)/2 - (buttonWidth/2) + 100, y: screenHeight - buttonHeight, width: buttonWidth, height: buttonHeight)
+        panelView.frame = CGRect(x: screenWdith - panelWidth, y: view.safeAreaInsets.top, width: panelWidth, height: screenHeight)
+        
+        
     }
-   
-    func setupFactory(viewFactory : ViewProducible) {
+    func setupPHPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        self.phpicker = PHPickerViewController(configuration: configuration)
+        phpicker.delegate = self
+    }
+    
+    func setupFactory(viewFactory : ViewProducible, modelFactory : ModelProducible) {
         self.viewFactory = viewFactory
+        self.modelFactory = modelFactory
+        
     }
     
     //MARK: 사용자가 사각형 버튼을 누르면 plane 구역안에 뷰를 생성 시켜줄 팩토리 를 이용하여 모델생성 및 plane 에 추가.
-    @objc func createRectangleModel() {
-        plane?.addModel()
+    @objc func didTapRectangleButton() {
+        self.modelFactory?.setPropertyFactory(PropertyFactory(referencePoint: Point(x: 0, y:20), boarderSize: Size(width: self.screenWdith - self.panelWidth, height: self.screenHeight - self.buttonHeight), width: 130, height: 120))
+        plane?.addModel(modelFactory: modelFactory, modelType: RectangleModel.self)
     }
     
-
+    //MARK: 사용자가 사진 버튼을 누르면 plane 구역안에 뷰를 생성 시켜줄 팩토리 를 이용하여 모델생성 및 plane 에 추가.
+    @objc func didTapPhotoButton() {
+        self.present(phpicker!, animated: true, completion: nil)
+    }
+    
     //MARK: 사용자가 ViewController 를 터치했을때 좌표를 기준으로 사각형을 찾음.
     @objc func tapTriggered(sender: UITapGestureRecognizer) {
         let tappedPoint = sender.location(in: self.view)
@@ -86,7 +123,7 @@ class ViewController: UIViewController {
     }
     
     @objc func didTabColorRondomizeButton(sender: UIButton) {
-        plane?.randomizeColorOnSelectedModel()
+        plane?.randomizeColorOnSelectedModel(modelFactory: modelFactory)
     }
     
     
@@ -94,9 +131,9 @@ class ViewController: UIViewController {
         plane?.changeAlphaOnSelectedModel(to: Alpha(rawValue: Int(sender.value)))
     }
     
-
-
-
+    
+    
+    
     
     //MARK: Add Observers
     func addObservers () {
@@ -122,8 +159,8 @@ class ViewController: UIViewController {
     @objc func createModelView(notification: Notification) {
         guard let newModel = notification.userInfo?[UserInfo.model] else {return}
         guard let model = newModel as? Model else {return}
-        if let modelView = viewFactory?.make(model: model) {
-            modelViewList[model] = modelView as? ViewConfigurable
+        if let modelView = viewFactory?.make(model: model)  {
+            modelViewList[model] = modelView as? View & ColorModifiable & AlphaModifiable
             view.addSubview(modelView)
         }
         
@@ -137,7 +174,7 @@ class ViewController: UIViewController {
             panelView.setDefaultPanelValues()
             return
         }
-            
+        
         if let previouslySelectedModel = notification.userInfo?[UserInfo.previousModel] as? Model {
             updateHighlight(from: previouslySelectedModel)
         }
@@ -148,12 +185,12 @@ class ViewController: UIViewController {
     
     @objc func updateModelView(notification: Notification) {
         guard let modifiedModel = notification.userInfo?[UserInfo.model] as? Model else {return}
-        guard let modelView = modelViewList[modifiedModel] else {return}
+        guard let modelView = modelViewList[modifiedModel] as? View & AlphaModifiable & ColorModifiable  else {return}
         let colorChanged = notification.name == .DidChangeColor
         if colorChanged {
-          modelView.updateColor(with: modifiedModel)
+            modelView.updateColor(modifiedModel.color)
         }else{
-          modelView.updateAlpha(newAlpha: modifiedModel.alpha.scaledValue)
+            modelView.updateAlpha(modifiedModel.alpha)
         }
     }
     
@@ -166,14 +203,15 @@ class ViewController: UIViewController {
             panelView.updateAlpha(newAlphaValue: modifiedModel.alpha.scaledValue)
         }
     }
-        
-
+    
+    
     //MARK: 사각형 뷰 선택에 따른 테두리 및 패널 뷰처리 함수.
     private func updateHighlight(from model: Model) {
         guard let modelView = modelViewList[model] else {return}
         modelView.select(isSelected: model.selectedStatus())
+        
     }
-  
+    
     
     private func updatePanel(from model: Model) {
         if model.selectedStatus() {
@@ -191,3 +229,26 @@ class ViewController: UIViewController {
     }
     
 }
+
+extension ViewController : PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard !results.isEmpty else {return}
+        let itemProvider = results.first?.itemProvider
+        itemProvider?.loadObject(ofClass: UIImage.self, completionHandler: {(object, error) in
+            if let image = object as? UIImage {
+                if let imageData = image.pngData() {
+                    DispatchQueue.main.sync {
+                        self.modelFactory?.setPropertyFactory(PhotoPropertyFactory(referencePoint: Point(x: 0, y:20), boarderSize: Size(width: self.screenWdith - self.panelWidth, height: self.screenHeight - self.buttonHeight), width: 130, height: 120, data: imageData))
+                        
+                        self.plane?.addModel(modelFactory: self.modelFactory, modelType: PhotoModel.self)
+                    }
+                }
+            }
+        })
+        
+    }
+}
+
+

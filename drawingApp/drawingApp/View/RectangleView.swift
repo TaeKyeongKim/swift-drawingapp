@@ -9,13 +9,13 @@ import UIKit
 
 //RectangleView 와 PhotoView 는 ViewConfigurable 프로토콜을 채택.
 
-protocol ViewConfigurable {
-    func updateColor(with model: Model)
-    func updateAlpha(newAlpha : Double)
+protocol ViewSelectable {
+    
     func select(isSelected : Bool)
 }
 
-class RectangleView: UIView, ViewConfigurable {
+
+class View: UIView, ViewSelectable {
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,13 +26,15 @@ class RectangleView: UIView, ViewConfigurable {
     }
     
     
-    func updateColor(with model: Model) {
-        self.backgroundColor = UIColor(red: model.color.red.scaleRGB, green: model.color.green.scaleRGB, blue: model.color.blue.scaleRGB, alpha: model.alpha.scaledValue)
-    }
-    
-    func updateAlpha(newAlpha : Double) {
-        self.alpha = newAlpha
-    }
+//    func updateColor(_ color: Color) {
+//        self.backgroundColor = UIColor(red: color.red.scaleRGB, green: color.green.scaleRGB, blue: color.blue.scaleRGB, alpha: 0.1)
+//        
+//    }
+//    
+//    func updateAlpha(_ alpha: Alpha) {
+//        self.alpha = alpha.scaledValue
+//    }
+
     
     
     func select(isSelected : Bool){
@@ -46,4 +48,22 @@ class RectangleView: UIView, ViewConfigurable {
     }
     
     
+}
+
+class RectangleView : View , AlphaModifiable , ColorModifiable{
+    func updateColor(_ color: Color) {
+        self.backgroundColor = UIColor(red: color.red.scaleRGB, green: color.green.scaleRGB, blue: color.blue.scaleRGB, alpha: 0.1)
+        
+    }
+    
+    func updateAlpha(_ alpha: Alpha) {
+        self.alpha = alpha.scaledValue
+    }
+
+}
+
+class PhotoView : View , AlphaModifiable {
+    func updateAlpha(_ alpha: Alpha) {
+        self.alpha = alpha.scaledValue
+    }
 }

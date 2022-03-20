@@ -10,19 +10,26 @@ import OSLog
 
 protocol ModelManagable {
     var models : [Model] {get}
-    var modelFactory : ModelProducible {get}
-    func addModel()
     func selectModel(tapCoordinate: Point)
-    func randomizeColorOnSelectedModel()
+    func randomizeColorOnSelectedModel(modelFactory: ModelProducible?)
     func changeAlphaOnSelectedModel(to alpha: Alpha?)
+    func addModel(modelFactory : ModelProducible?, modelType : Model.Type)
     subscript(index: UInt64) -> Model? {get}
-    init(modelFactory : ModelProducible)
+    
 }
 
 
 class Plane : ModelManagable {
+
+    
+
     private (set) var models = [Model]()
-    private (set) var modelFactory : ModelProducible
+    {
+        didSet {
+            print(models)
+        }
+    }
+    
     private var selectedModel : Model? {
         didSet {
             //pre -> false, current -> ture
@@ -44,13 +51,10 @@ class Plane : ModelManagable {
         }
     }
     
-    required init(modelFactory : ModelProducible) {
-        self.modelFactory = modelFactory
-    }
+  
     
-    
-    func addModel() {
-        let newModel = modelFactory.make(size: Size(width: 130, height: 120))
+    func addModel(modelFactory : ModelProducible?, modelType : Model.Type) {
+        guard let newModel = modelFactory?.makeModel(type: modelType) else {return}
         self.models.append(newModel)
         NotificationCenter.default.post(name: .DidMakeModel, object: self, userInfo: [UserInfo.model: newModel])
     }
@@ -72,14 +76,14 @@ class Plane : ModelManagable {
         selectedModel = detectedModel
     }
     
-    func randomizeColorOnSelectedModel(){
-        guard let targetModel = selectedModel as? ColorModifiable else{return}
-        targetModel.updateColor(RandomGenerator.makeColor())
+    func randomizeColorOnSelectedModel(modelFactory: ModelProducible?){
+        guard let targetModel = selectedModel as? ColorModifiable , let factory = modelFactory else{return}
+        targetModel.updateColor(factory.propertyFactory!.makeColor())
         NotificationCenter.default.post(name: .DidChangeColor, object: self, userInfo: [UserInfo.model : targetModel])
     }
     
     func changeAlphaOnSelectedModel(to alpha: Alpha?){
-        guard let newAlpha = alpha , let targetModel = selectedModel else{return}
+        guard let newAlpha = alpha , let targetModel = selectedModel as? AlphaModifiable else{return}
         targetModel.updateAlpha(newAlpha)
         NotificationCenter.default.post(name: .DidChangeAlpha, object: self, userInfo: [UserInfo.model : targetModel])
     }
