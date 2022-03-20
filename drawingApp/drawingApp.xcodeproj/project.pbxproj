@@ -21,7 +21,7 @@
 		B74322BF27CF0C3D00445645 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322BE27CF0C3D00445645 /* Point.swift */; };
 		B74322C127CF35F000445645 /* Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322C027CF35F000445645 /* Alpha.swift */; };
 		B74322C327CF5A0700445645 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322C227CF5A0700445645 /* Plane.swift */; };
-		B74322C627D0CB8400445645 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322C527D0CB8400445645 /* RectangleView.swift */; };
+		B74322C627D0CB8400445645 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322C527D0CB8400445645 /* View.swift */; };
 		B74322CC27D1B91C00445645 /* PanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322CB27D1B91C00445645 /* PanelView.swift */; };
 		B74322D127D2534200445645 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322D027D2534200445645 /* Utils.swift */; };
 		B74322E027DB39FF00445645 /* PropertyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74322DF27DB39FF00445645 /* PropertyFactory.swift */; };
@@ -30,6 +30,8 @@
 		B743232827E22A3C00445645 /* RectangleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743232727E22A3C00445645 /* RectangleModel.swift */; };
 		B743232E27E44EBA00445645 /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743232D27E44EBA00445645 /* ViewFactory.swift */; };
 		B743233027E46C4E00445645 /* PhotoPropertyFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = B743232F27E46C4E00445645 /* PhotoPropertyFactory.swift */; };
+		B74F0D6C27E78908003DC728 /* RectangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74F0D6B27E78908003DC728 /* RectangleView.swift */; };
+		B74F0D6E27E78915003DC728 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74F0D6D27E78915003DC728 /* PhotoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +62,7 @@
 		B74322BE27CF0C3D00445645 /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		B74322C027CF35F000445645 /* Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alpha.swift; sourceTree = "<group>"; };
 		B74322C227CF5A0700445645 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
-		B74322C527D0CB8400445645 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		B74322C527D0CB8400445645 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		B74322CB27D1B91C00445645 /* PanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelView.swift; sourceTree = "<group>"; };
 		B74322D027D2534200445645 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		B74322DF27DB39FF00445645 /* PropertyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyFactory.swift; sourceTree = "<group>"; };
@@ -69,6 +71,8 @@
 		B743232727E22A3C00445645 /* RectangleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleModel.swift; sourceTree = "<group>"; };
 		B743232D27E44EBA00445645 /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
 		B743232F27E46C4E00445645 /* PhotoPropertyFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPropertyFactory.swift; sourceTree = "<group>"; };
+		B74F0D6B27E78908003DC728 /* RectangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectangleView.swift; sourceTree = "<group>"; };
+		B74F0D6D27E78915003DC728 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,7 +166,9 @@
 		B74322C427D0CB5800445645 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B74322C527D0CB8400445645 /* RectangleView.swift */,
+				B74322C527D0CB8400445645 /* View.swift */,
+				B74F0D6B27E78908003DC728 /* RectangleView.swift */,
+				B74F0D6D27E78915003DC728 /* PhotoView.swift */,
 				B74322CB27D1B91C00445645 /* PanelView.swift */,
 				B743232D27E44EBA00445645 /* ViewFactory.swift */,
 			);
@@ -286,12 +292,14 @@
 				B743233027E46C4E00445645 /* PhotoPropertyFactory.swift in Sources */,
 				B74322A527CC81ED00445645 /* ModelFactory.swift in Sources */,
 				B743232627E2248900445645 /* PhotoModel.swift in Sources */,
-				B74322C627D0CB8400445645 /* RectangleView.swift in Sources */,
+				B74322C627D0CB8400445645 /* View.swift in Sources */,
+				B74F0D6E27E78915003DC728 /* PhotoView.swift in Sources */,
 				B743232827E22A3C00445645 /* RectangleModel.swift in Sources */,
 				B743228D27CC5DF300445645 /* AppDelegate.swift in Sources */,
 				B74322D127D2534200445645 /* Utils.swift in Sources */,
 				B74322BF27CF0C3D00445645 /* Point.swift in Sources */,
 				B74322CC27D1B91C00445645 /* PanelView.swift in Sources */,
+				B74F0D6C27E78908003DC728 /* RectangleView.swift in Sources */,
 				B743228F27CC5DF300445645 /* SceneDelegate.swift in Sources */,
 				B743232E27E44EBA00445645 /* ViewFactory.swift in Sources */,
 				B74322A327CC6F4000445645 /* Model.swift in Sources */,
