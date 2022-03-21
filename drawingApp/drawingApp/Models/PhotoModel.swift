@@ -19,8 +19,8 @@ class PhotoModel : Model, AlphaModifiable{
     
     
     required init(propertyFactory: PropertyFactory) {
-        let og = propertyFactory as? PhotoPropertyFactory
-        self.photoData = og?.data
+        let pf = propertyFactory as? PhotoPropertyFactory
+        self.photoData = pf?.data
         super.init(propertyFactory: propertyFactory)
     }
     

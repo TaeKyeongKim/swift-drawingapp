@@ -12,10 +12,11 @@ import UIKit
 protocol ViewSelectable {
     
     func select(isSelected : Bool)
+//    func setup(model : Model)
 }
 
 
-class View: UIView, ViewSelectable {
+class View: UIImageView, ViewSelectable {
         
     override init(frame: CGRect) {
         super.init(frame: frame)

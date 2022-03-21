@@ -185,7 +185,7 @@ class ViewController: UIViewController {
     
     @objc func updateModelView(notification: Notification) {
         guard let modifiedModel = notification.userInfo?[UserInfo.model] as? Model else {return}
-        guard let modelView = modelViewList[modifiedModel] as? View & AlphaModifiable & ColorModifiable  else {return}
+        guard let modelView = modelViewList[modifiedModel] as? View & AlphaModifiable & ColorModifiable else {return}
         let colorChanged = notification.name == .DidChangeColor
         if colorChanged {
             modelView.updateColor(modifiedModel.color)
@@ -224,9 +224,9 @@ class ViewController: UIViewController {
     }
     
     //MARK: 색상, 알파 수정에 대한 뷰처리 함수.
-    private func manageAmendingViews(by model: Model, operation : (Model) -> ()){
-        return operation(model)
-    }
+//    private func manageAmendingViews(by model: Model, operation : (Model) -> ()){
+//        return operation(model)
+//    }
     
 }
 

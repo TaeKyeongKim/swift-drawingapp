@@ -17,5 +17,7 @@ class RectangleView : View , AlphaModifiable , ColorModifiable{
     func updateAlpha(_ alpha: Alpha) {
         self.alpha = alpha.scaledValue
     }
+    
+    
 
 }
